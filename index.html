@@ -1,0 +1,163 @@
+<!doctype html>
+<html lang="he" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#17324d">
+<title>אלוף המרובעים – לומדים ומשחקים</title>
+<style>
+:root{--navy:#17324d;--blue:#246b9b;--sky:#eaf4fb;--gold:#f3bd4f;--ink:#203040;--muted:#64748b;--green:#16845b;--red:#c34444;--paper:#fff;--line:#dbe5ee}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#edf5fb,#f8fafc 360px);font-family:Arial,"Noto Sans Hebrew",sans-serif;color:var(--ink);line-height:1.55}
+header{background:linear-gradient(120deg,#142b42,#246b9b);color:white;padding:28px 16px 24px;text-align:center}
+header h1{margin:0;font-size:clamp(1.8rem,5vw,2.7rem)}header p{margin:7px 0 0;color:#dcecf8}
+nav{display:flex;gap:8px;justify-content:center;flex-wrap:wrap;padding:12px;background:#fff;position:sticky;top:0;z-index:5;box-shadow:0 3px 12px #17324d18}
+button,.tab{font:inherit;border:0;border-radius:12px;padding:10px 16px;cursor:pointer;font-weight:700}
+nav button{background:#eaf1f7;color:var(--navy)}nav button.active{background:var(--navy);color:white}
+main{max-width:1050px;margin:22px auto;padding:0 14px 50px}
+.panel{background:white;border:1px solid var(--line);border-radius:20px;padding:clamp(16px,3vw,26px);box-shadow:0 8px 24px #17324d0c;margin-bottom:18px}
+h2{color:var(--navy);margin:0 0 12px;font-size:1.55rem}h3{color:var(--blue);margin:0 0 8px}
+.lead{color:var(--muted);margin-top:0}
+.grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
+.shape{border:1px solid var(--line);border-radius:15px;padding:14px;background:#fcfdff}
+.shape svg{width:100%;height:105px;display:block;margin:3px auto 8px}
+.shape p{margin:5px 0;font-size:.95rem}.shape strong{color:var(--navy)}
+.callout{background:var(--sky);border-right:4px solid var(--blue);padding:12px 14px;border-radius:10px;margin:12px 0}
+.stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.stat{background:#f2f7fb;border-radius:13px;text-align:center;padding:12px}.stat b{display:block;font-size:1.5rem;color:var(--blue)}
+.primary{background:var(--blue);color:white}.secondary{background:#eaf1f7;color:var(--navy)}.gold{background:var(--gold);color:#332400}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.hidden{display:none!important}
+.progress{height:9px;background:#e8eef3;border-radius:99px;overflow:hidden;margin:12px 0}.progress span{height:100%;display:block;background:var(--gold);width:0;transition:width .2s}
+.qmeta{color:var(--muted);font-size:.9rem;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.question{font-size:1.2rem;font-weight:700;margin:16px 0}
+.answers{display:grid;gap:9px}.answer{width:100%;text-align:right;background:#f4f7fa;border:2px solid transparent;color:var(--ink);padding:12px 14px;border-radius:12px;font-weight:500}.answer:hover{border-color:#9bc3df}.answer:disabled{cursor:default;opacity:1}.answer.correct{border-color:var(--green);background:#e8f7f0}.answer.wrong{border-color:var(--red);background:#fff0f0}
+.feedback{padding:13px;border-radius:12px;margin-top:13px}.feedback.good{background:#e8f7f0;color:#126746}.feedback.bad{background:#fff0f0;color:#922f2f}
+.small{font-size:.9rem;color:var(--muted)}.tag{display:inline-block;background:#fff2d3;color:#76500b;border-radius:99px;padding:3px 9px;font-size:.82rem;font-weight:700}
+footer{text-align:center;color:var(--muted);padding:20px;font-size:.85rem}
+table{border-collapse:collapse;width:100%;font-size:.94rem}th,td{border:1px solid var(--line);padding:9px;text-align:right;vertical-align:top}th{background:#eef5fa;color:var(--navy)}
+@media(max-width:560px){.stats{grid-template-columns:1fr 1fr}.stats .stat:last-child{grid-column:span 2}nav{justify-content:stretch}nav button{flex:1;padding:9px 7px;font-size:.9rem}.panel{border-radius:15px}}
+</style>
+</head>
+<body>
+<header><h1>🏆 אלוף המרובעים</h1><p>לומדים, מתרגלים ומגלים את הסודות של כל המרובעים</p></header>
+<nav>
+<button class="active" data-page="home">ראשי</button>
+<button data-page="learn">לומדים</button>
+<button data-page="game">משחק</button>
+<button data-page="exam">מבחן מסכם</button>
+</nav>
+<main>
+<section id="home" class="page">
+<div class="panel">
+<h2>ברוכים הבאים לאתגר המרובעים!</h2>
+<p class="lead">כאן לומדים לזהות מרובעים לפי הצלעות, הזוויות והאלכסונים – ואז בודקים כמה אתם באמת אלופים.</p>
+<div class="stats">
+<div class="stat"><b id="gamesStat">0</b>משחקים שהושלמו</div>
+<div class="stat"><b id="bestStat">—</b>שיא במשחק</div>
+<div class="stat"><b id="examStat">—</b>ציון אחרון במבחן</div>
+</div>
+<div class="callout"><strong>איך מתקדמים?</strong><br>1. לומדים את התכונות של שמונת המרובעים.<br>2. משחקים בשלושה שלבים – 10 שאלות בכל שלב.<br>3. מסיימים במבחן מסכם בן 10 שאלות.</div>
+<div class="actions"><button class="primary" onclick="showPage('learn')">מתחילים ללמוד ←</button><button class="secondary" onclick="showPage('game')">למשחק!</button></div>
+</div>
+<div class="panel"><h2>טיפ של אלופים 💡</h2><p>כדי לזהות מרובע, בדקו תמיד: כמה זוגות של צלעות מקבילות יש? האם יש צלעות שוות? אילו זוויות מיוחדות יש? ומה אפשר ללמוד מהאלכסונים?</p></div>
+</section>
+
+<section id="learn" class="page hidden">
+<div class="panel"><h2>לומדים להכיר את המרובעים</h2><p class="lead">עברו על התכונות החשובות. שימו לב: ריבוע הוא גם מלבן וגם מעוין, ומקבילית היא משפחה רחבה של מרובעים.</p>
+<div class="grid" id="shapesGrid"></div>
+<div class="callout"><strong>זוכרים?</strong> במרובע סכום הזוויות הפנימיות הוא תמיד 360°. האלכסון הוא קטע המחבר בין שני קודקודים נגדיים.</div>
+</div>
+</section>
+
+<section id="game" class="page hidden">
+<div class="panel" id="gameStart">
+<h2>🎮 משחק המרובעים</h2><p class="lead">בחרו שלב. בכל שלב 10 שאלות, עם משוב והסבר אחרי כל תשובה.</p>
+<div class="grid">
+<div class="shape"><h3>שלב 1 – מתחילים</h3><p>זיהוי שמות ותכונות בסיסיות.</p><button class="primary" onclick="startGame(0)">לשלב 1</button></div>
+<div class="shape"><h3>שלב 2 – מתקדמים</h3><p>השוואה בין מרובעים ותכונות מיוחדות.</p><button class="primary" onclick="startGame(1)">לשלב 2</button></div>
+<div class="shape"><h3>שלב 3 – אלופים</h3><p>חשיבה, היסקים ואלכסונים.</p><button class="primary" onclick="startGame(2)">לשלב 3</button></div>
+</div></div>
+<div class="panel hidden" id="gameQuiz"></div>
+<div class="panel hidden" id="gameResult"></div>
+</section>
+
+<section id="exam" class="page hidden">
+<div class="panel" id="examStart"><h2>📝 המבחן המסכם</h2><p class="lead">10 שאלות מכל הנושאים. בסיום תקבלו ציון, תשובות נכונות והסברים.</p><button class="gold" onclick="startExam()">מתחילים מבחן</button></div>
+<div class="panel hidden" id="examQuiz"></div>
+<div class="panel hidden" id="examResult"></div>
+</section>
+</main>
+<footer>אלוף המרובעים · לומדים בהנאה ומצליחים בגדול ✨</footer>
+<script>
+const shapes=[
+{name:"ריבוע",svg:'<rect x="45" y="12" width="90" height="80" rx="1"/>',props:["ארבע צלעות שוות.","ארבע זוויות ישרות (90°).","שני זוגות של צלעות נגדיות מקבילות.","האלכסונים שווים, מאונכים וחוצים זה את זה; הם גם חוצים את זוויות הריבוע."]},
+{name:"מלבן",svg:'<rect x="25" y="22" width="130" height="65"/>',props:["צלעות נגדיות שוות ומקבילות.","ארבע זוויות ישרות (90°).","האלכסונים שווים וחוצים זה את זה.","לא בהכרח כל ארבע הצלעות שוות."]},
+{name:"מקבילית",svg:'<polygon points="45,20 155,20 125,88 15,88"/>',props:["שני זוגות של צלעות נגדיות מקבילות.","צלעות נגדיות שוות.","זוויות נגדיות שוות; זוויות סמוכות משלימות ל־180°.","האלכסונים חוצים זה את זה, אך לא בהכרח שווים או מאונכים."]},
+{name:"מעוין",svg:'<polygon points="85,8 150,55 85,102 20,55"/>',props:["ארבע צלעות שוות.","צלעות נגדיות מקבילות.","זוויות נגדיות שוות.","האלכסונים מאונכים וחוצים זה את זה, וכל אלכסון חוצה זוג זוויות."]},
+{name:"טרפז",svg:'<polygon points="48,20 132,20 160,88 20,88"/>',props:["לפי ההגדרה הנהוגה כאן: זוג אחד של צלעות נגדיות מקבילות.","הצלעות המקבילות נקראות בסיסים.","הצלעות שאינן מקבילות נקראות שוקיים.","סכום הזוויות הסמוכות לכל שוק הוא 180°."]},
+{name:"טרפז ישר־זווית",svg:'<polygon points="35,20 125,20 155,88 35,88"/>',props:["טרפז שיש בו שתי זוויות ישרות.","אחת השוקיים מאונכת לבסיסים.","הבסיסים מקבילים.","שתי הזוויות האחרות משלימות ל־180°."]},
+{name:"טרפז שווה־שוקיים",svg:'<polygon points="48,20 132,20 160,88 20,88"/>',props:["הזרועות (השוקיים) שוות באורכן.","הבסיסים מקבילים.","זוויות הבסיס שוות בכל בסיס.","האלכסונים שווים."]},
+{name:"דלתון",svg:'<polygon points="85,8 142,48 85,102 28,48"/>',props:["שני זוגות של צלעות סמוכות שוות.","אחד האלכסונים הוא ציר סימטריה וחוצה את האלכסון השני.","האלכסונים מאונכים זה לזה.","זוג אחד של זוויות נגדיות שוות (הזוויות שבין הצלעות הלא־שוות)."]}
+];
+const stroke='<g fill="#dceefa" stroke="#246b9b" stroke-width="3" stroke-linejoin="round">';
+document.getElementById("shapesGrid").innerHTML=shapes.map(s=>`<article class="shape"><svg viewBox="0 0 180 110" role="img" aria-label="${s.name}">${stroke}${s.svg}</g></svg><h3>${s.name}</h3><ul>${s.props.map(p=>`<li>${p}</li>`).join("")}</ul></article>`).join("");
+const q=(question,answers,correct,why)=>({question,answers,correct,why});
+const levels=[
+[
+q("כמה מעלות הוא סכום הזוויות הפנימיות בכל מרובע?",["180°","270°","360°","״תלוי בסוג המרובע״"],2,"אפשר לחלק כל מרובע לשני משולשים. בכל משולש 180°, ולכן 180° + 180° = 360°."),
+q("איזה מרובע חייב להיות בעל ארבע צלעות שוות וארבע זוויות ישרות?",["מלבן","ריבוע","מעוין","דלתון"],1,"ריבוע מקיים את שתי התכונות יחד: כל הצלעות שוות וכל הזוויות ישרות."),
+q("במלבן, כמה זוגות של צלעות נגדיות מקבילות?",["זוג אחד","שני זוגות","אין זוגות","ארבעה זוגות"],1,"במלבן כל זוג צלעות נגדיות מקבילות."),
+q("איזו תכונה מתאימה לכל מקבילית?",["כל הזוויות ישרות","כל הצלעות שוות","האלכסונים חוצים זה את זה","האלכסונים תמיד שווים"],2,"בכל מקבילית האלכסונים חוצים זה את זה."),
+q("איזה מרובע הוא בעל ארבע צלעות שוות, אך לא חייב להיות בעל זוויות ישרות?",["מעוין","מלבן","טרפז","דלתון"],0,"במעוין כל הצלעות שוות; הזוויות אינן חייבות להיות 90°."),
+q("מהם הבסיסים בטרפז?",["הצלעות השוות","הצלעות המקבילות","האלכסונים","הצלעות המאונכות"],1,"הבסיסים הם זוג הצלעות המקבילות בטרפז."),
+q("איזו תכונה מיוחדת יש לטרפז ישר־זווית?",["ארבע צלעות שוות","שתי זוויות ישרות","אלכסונים מאונכים תמיד","כל הזוויות שוות"],1,"בטרפז ישר־זווית יש שתי זוויות של 90°."),
+q("איזה מרובע כולל שני זוגות של צלעות סמוכות שוות?",["מלבן","טרפז","דלתון","מקבילית"],2,"בדלתון יש שני זוגות של צלעות סמוכות שוות."),
+q("כמה אלכסונים יש בכל מרובע?",["אחד","שניים","שלושה","ארבעה"],1,"במרובע מחברים כל קודקוד לקודקוד הנגדי, ולכן יש שני אלכסונים."),
+q("איזו צורה היא גם מלבן וגם מעוין?",["טרפז","דלתון","ריבוע","מקבילית כללית"],2,"ריבוע הוא מלבן (ארבע זוויות ישרות) וגם מעוין (ארבע צלעות שוות).")
+],
+[
+q("במקבילית, אם זווית אחת היא 70°, מה גודל הזווית הסמוכה לה?",["70°","90°","110°","290°"],2,"זוויות סמוכות במקבילית משלימות ל־180°, לכן 180°−70°=110°."),
+q("איזו תכונה נכונה לגבי אלכסוני מלבן?",["מאונכים תמיד","שווים וחוצים זה את זה","חוצים את הזוויות תמיד","אינם נפגשים באמצע"],1,"אלכסוני מלבן שווים וחוצים זה את זה."),
+q("במעוין, האלכסונים...",["שווים תמיד","מאונכים וחוצים זה את זה","מקבילים","אינם חוצים זה את זה"],1,"במעוין האלכסונים מאונכים וחוצים זה את זה."),
+q("מה נכון לגבי טרפז שווה־שוקיים?",["השוקיים שוות","כל הזוויות ישרות","האלכסונים מאונכים תמיד","כל ארבע הצלעות שוות"],0,"המאפיין המרכזי הוא שוויון השוקיים; גם זוויות הבסיס והאלכסונים שווים בהתאמה."),
+q("בטרפז, זוויות סמוכות לאורך אותה שוק מסתכמות ב־...",["90°","180°","270°","360°"],1,"הבסיסים מקבילים, והשוק חותכת אותם; הזוויות הפנימיות מאותו צד משלימות ל־180°."),
+q("איזה מרובע האלכסונים שלו שווים וגם חוצים זה את זה?",["כל דלתון","מלבן","כל מעוין","כל טרפז"],1,"במלבן האלכסונים שווים וחוצים זה את זה. ריבוע הוא מקרה פרטי של מלבן."),
+q("בטרפז ישר־זווית, מהי הזווית הרביעית אם שלוש הזוויות הן 90°, 90°, 65°?",["65°","105°","115°","125°"],2,"סכום הזוויות 360°. לכן הזווית הרביעית היא 360−245=115°."),
+q("איזו תכונה מבדילה מעוין ממקבילית כללית?",["צלעות נגדיות מקבילות","צלעות נגדיות שוות","כל ארבע הצלעות שוות","אלכסונים חוצים זה את זה"],2,"במעוין כל ארבע הצלעות שוות; במקבילית כללית זה לא חייב להתקיים."),
+q("בדלתון, מה נכון לגבי האלכסונים?",["הם מקבילים","הם מאונכים","הם תמיד שווים","הם תמיד חוצים זה את זה"],1,"אלכסוני דלתון מאונכים. האלכסון שהוא ציר הסימטריה חוצה את האלכסון השני."),
+q("אם במרובע יש ארבע זוויות ישרות, מה אפשר להסיק?",["הוא מלבן","הוא בהכרח ריבוע","הוא דלתון בלבד","הוא טרפז בלבד"],0,"מרובע בעל ארבע זוויות ישרות הוא מלבן; הוא ריבוע רק אם גם כל הצלעות שוות.")
+],
+[
+q("במקבילית היקף 30 ס״מ וצלע אחת 9 ס״מ. מה אורך הצלע הסמוכה?",["6 ס״מ","9 ס״מ","12 ס״מ","15 ס״מ"],0,"במקבילית צלעות נגדיות שוות: 2(9+x)=30, לכן x=6."),
+q("אלכסוני מעוין הם 12 ס״מ ו־16 ס״מ. מה אורך חצי האלכסון הקצר?",["4 ס״מ","6 ס״מ","8 ס״מ","14 ס״מ"],1,"האלכסונים חוצים זה את זה, ולכן חצי האלכסון הקצר הוא 12÷2=6."),
+q("במלבן, אלכסון אחד הוא 13 ס״מ. מה אורך האלכסון השני?",["6.5 ס״מ","13 ס״מ","26 ס״מ","אי אפשר לדעת"],1,"אלכסוני מלבן שווים, לכן גם השני באורך 13 ס״מ."),
+q("בטרפז שווה־שוקיים זווית בסיס אחת היא 68°. מה גודל הזווית השנייה שעל אותו בסיס?",["68°","90°","112°","292°"],0,"בטרפז שווה־שוקיים זוויות הבסיס שוות."),
+q("איזו אמירה נכונה תמיד לגבי ריבוע?",["הוא אינו מקבילית","האלכסונים שלו שווים ומאונכים","רק זוג אחד של צלעות מקבילות","האלכסונים אינם חוצים זוויות"],1,"בריבוע האלכסונים שווים, מאונכים, חוצים זה את זה וגם חוצים את זוויות הריבוע."),
+q("במרובע האלכסונים חוצים זה את זה. מה ניתן להסיק?",["המרובע הוא מקבילית","המרובע הוא בהכרח ריבוע","המרובע הוא בהכרח דלתון","המרובע הוא בהכרח טרפז"],0,"אם אלכסוני מרובע חוצים זה את זה, המרובע הוא מקבילית."),
+q("איזו תכונה אינה נכונה בהכרח לכל מעוין?",["ארבע צלעות שוות","צלעות נגדיות מקבילות","אלכסונים מאונכים","אלכסונים שווים"],3,"אלכסוני מעוין אינם חייבים להיות שווים; הם שווים במקרה של ריבוע."),
+q("בטרפז יש בסיסים באורך 8 ו־14 ס״מ. מהו אורך קטע האמצעים?",["6 ס״מ","11 ס״מ","14 ס״מ","22 ס״מ"],1,"קטע האמצעים בטרפז שווה למחצית סכום הבסיסים: (8+14)÷2=11."),
+q("בדלתון, האלכסון הראשי הוא 18 ס״מ והוא חוצה את האלכסון השני. מה אורך כל אחד משני חלקי האלכסון השני?",["9 ס״מ","18 ס״מ","36 ס״מ","אי אפשר לדעת"],3,"האלכסון הראשי חוצה את האלכסון השני, אך הנתון 18 ס״מ הוא אורכו של האלכסון הראשי. אין מספיק מידע כדי לחשב את אורך החלקים."),
+q("מרובע הוא גם מעוין וגם בעל ארבע זוויות ישרות. מהו?",["מקבילית שאינה מיוחדת","ריבוע","טרפז שווה־שוקיים","דלתון שאינו ריבוע"],1,"מעוין עם ארבע זוויות ישרות הוא ריבוע.")
+]
+];
+const examQs=[levels[0][2],levels[0][1],levels[1][0],levels[1][2],levels[0][7],levels[1][3],levels[2][7],levels[2][5],levels[2][6],levels[2][9]];
+let current={kind:"",questions:[],index:0,score:0,answered:false,review:[]};
+function showPage(id){document.querySelectorAll(".page").forEach(p=>p.classList.toggle("hidden",p.id!==id));document.querySelectorAll("nav button").forEach(b=>b.classList.toggle("active",b.dataset.page===id));window.scrollTo({top:0,behavior:"smooth"});}
+document.querySelectorAll("nav button").forEach(b=>b.addEventListener("click",()=>showPage(b.dataset.page)));
+function getStats(){try{return JSON.parse(localStorage.getItem("quadStats")||'{"games":0,"best":0,"exam":null}')}catch(e){return {games:0,best:0,exam:null}}}
+function saveStats(s){localStorage.setItem("quadStats",JSON.stringify(s));renderStats()}
+function renderStats(){let s=getStats();document.getElementById("gamesStat").textContent=s.games;document.getElementById("bestStat").textContent=s.games?s.best+"/10":"—";document.getElementById("examStat").textContent=s.exam===null?"—":s.exam+"/10"}
+renderStats();
+function startGame(level){current={kind:"game",questions:levels[level],index:0,score:0,answered:false,review:[],level};document.getElementById("gameStart").classList.add("hidden");document.getElementById("gameResult").classList.add("hidden");document.getElementById("gameQuiz").classList.remove("hidden");renderQuestion("gameQuiz")}
+function startExam(){current={kind:"exam",questions:examQs,index:0,score:0,answered:false,review:[]};document.getElementById("examStart").classList.add("hidden");document.getElementById("examResult").classList.add("hidden");document.getElementById("examQuiz").classList.remove("hidden");renderQuestion("examQuiz")}
+function renderQuestion(containerId){let c=document.getElementById(containerId),q=current.questions[current.index],n=current.questions.length;
+c.innerHTML=`<div class="qmeta"><span>${current.kind==="game"?"משחק · שלב "+(current.level+1):"מבחן מסכם"}</span><span>שאלה ${current.index+1} מתוך ${n}</span></div><div class="progress"><span style="width:${current.index/n*100}%"></span></div><div class="question">${q.question}</div><div class="answers">${q.answers.map((a,i)=>`<button class="answer" onclick="chooseAnswer(${i})">${["א","ב","ג","ד"][i]}. ${a}</button>`).join("")}</div><div id="feedback"></div><div class="actions"><button id="nextBtn" class="primary hidden" onclick="nextQuestion()">${current.index===n-1?"לסיום":"לשאלה הבאה ←"}</button></div>`;
+}
+function chooseAnswer(i){if(current.answered)return;current.answered=true;let q=current.questions[current.index],ok=i===q.correct;if(ok)current.score++;current.review.push({q,chosen:i,ok});document.querySelectorAll(".answer").forEach((b,j)=>{b.disabled=true;if(j===q.correct)b.classList.add("correct");else if(j===i)b.classList.add("wrong")});let f=document.getElementById("feedback");f.className="feedback "+(ok?"good":"bad");f.innerHTML=`<strong>${ok?"כל הכבוד! תשובה נכונה 🎉":"לא נורא, ממשיכים ללמוד 💪"}</strong><br>התשובה הנכונה: ${q.answers[q.correct]}.<br>${q.why}`;document.getElementById("nextBtn").classList.remove("hidden")}
+function nextQuestion(){current.index++;current.answered=false;if(current.index<current.questions.length){renderQuestion(current.kind==="game"?"gameQuiz":"examQuiz")}else finish()}
+function finish(){let isGame=current.kind==="game",target=document.getElementById(isGame?"gameQuiz":"examQuiz"),result=document.getElementById(isGame?"gameResult":"examResult");target.classList.add("hidden");result.classList.remove("hidden");let score=current.score,n=current.questions.length,pct=Math.round(score/n*100);let s=getStats();if(isGame){s.games++;s.best=Math.max(s.best,score)}else s.exam=score;saveStats(s);
+result.innerHTML=`<h2>${isGame?"🏁 סיימתם את השלב!":"📋 תוצאות המבחן"}</h2><div class="stats"><div class="stat"><b>${score}/${n}</b>תשובות נכונות</div><div class="stat"><b>${pct}%</b>הצלחה</div><div class="stat"><b>${score>=8?"מצוין!":score>=6?"כל הכבוד!":"ממשיכים להתאמן!"}</b>הערכה</div></div><h3 style="margin-top:20px">בדיקת התשובות</h3>${current.review.map((r,i)=>`<div class="shape" style="margin:9px 0"><strong>${i+1}. ${r.q.question}</strong><p>${r.ok?"✅":"❌"} התשובה הנכונה: ${r.q.answers[r.q.correct]}</p><p class="small">${r.q.why}</p></div>`).join("")}<div class="actions"><button class="primary" onclick="${isGame?'showGameStart()':'showExamStart()'}">בחירת ${isGame?"שלב נוסף":"מבחן מחדש"}</button><button class="secondary" onclick="showPage('home')">חזרה לראשי</button></div>`;
+}
+function showGameStart(){document.getElementById("gameResult").classList.add("hidden");document.getElementById("gameStart").classList.remove("hidden")}
+function showExamStart(){document.getElementById("examResult").classList.add("hidden");document.getElementById("examStart").classList.remove("hidden")}
+</script>
+</body></html>
